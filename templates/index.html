@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en" ng-app="huaweiApp">
+
+<head>
+    <meta charset="utf-8">
+    <title>ASP</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="app.css" />
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="app.module.js"></script>
+    <script src="app.config.js"></script>
+    <script src="app-detail/app-detail.module.js"></script>
+    <script src="app-detail/app-detail.component.js"></script>
+    <script src="app-head/app-head.module.js"></script>
+    <script src="app-head/app-head.component.js"></script>
+    <script src="app-tool/app-tool.module.js"></script>
+    <script src="app-tool/app-tool.component.js"></script>
+    <script src="/bower_components/angular-aria/angular-aria.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.js"></script>
+    <script src="/bower_components/angular-material/angular-material.js"></script>
+    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css">
+    <link data-require="bootstrap-css@3.3.6" data-semver="3.3.6" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" />
+    <script data-require="jquery@2.2.4" data-semver="2.2.4" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script data-require="bootstrap.js@*" data-semver="3.3.6" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <!--<link rel="stylesheet" href="style.css" />-->
+    <style type="text/css">
+    h1 {
+        text-align: center;
+    }
+    </style>
+</head>
+
+<body class="container" >
+    <div class='jumbotron' style="background-color: #E3F2FD">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-education" aria-hidden="true"></span> Academic Panorama Search</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="#">About</a>
+                    </li>
+                    <li>
+                        <a href="mailto:yewang0910@gmail.com">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <br>
+    <br>
+    {% if type=='ML' %}
+        <h1>Machine Learning</h1>
+    {% elif type=='IR' %}
+        <h1>Information Retrieval</h1>
+    {% else %}
+        <h1>Hello, World!</h1>
+    {% endif %}
+</div>
+
+
+
+<div class="row">
+    <span class="col-md-8">
+          </span>
+    <span class="col-md-2 text-right">
+            Research Field:
+          </span>
+    <span class="input-group-btn col-md-2">
+        <form action="/" method="POST">
+          <select name="type" class="btn btn-default dropdown-toggle" type="button" onchange="this.form.submit()">
+          <option value="default"></option>
+          <option value="ML">Machine Learning</option>
+          <option value="IR">Information Retrieval</option>
+          </select>
+        </form>
+    </span>
+</div>
+
+<div class="container">
+    <table class="table">
+
+    <thead>
+      <tr>
+        <th>Topic ID</th>
+        <th>Topic name</th>
+        <th>Related Paper</th>
+      </tr>
+    </thead>
+
+    <tbody>
+        {% for i in data %}  
+            {% if loop.index0%2==0 %}
+              <tr onclick="window.document.location='/detail/{{ type }}/{{ i.id }}';">
+            {% endif %} 
+            {% if loop.index0%2==1 %}
+              <tr class="active" onclick="window.document.location='/detail/{{ type }}/{{ i.id }}';">
+            {% endif %} 
+
+            <td>{{loop.index}}</td>
+            <td>
+            {% for label in i.labels %}
+                {% if loop.index0%3==0 %}
+                <span class="label label-success">{{label}}</span>
+                {% elif loop.index0%3==1 %}
+                <span class="label label-info">{{label}}</span>
+                {% elif loop.index0%3==2 %}
+                <span class="label label-warning">{{label}}</span>
+                {% endif %} 
+            {% endfor %}
+            </td>
+            <td>{{i.papers}}</td>
+            </tr>
+        {% endfor %}
+
+    </tbody>
+    
+  </table>
+</div>
+
+</body>
+
+</html>
